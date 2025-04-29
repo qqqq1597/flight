@@ -17,76 +17,77 @@
   <button id="addFlightBtn">新增航班</button>
 </header>
 
-  <section id="homePage">
-    <h1>航班列表</h1>
-    <div class="flight-lists">
-      <div class="flight-section" id="outbound">
-        <h2>去程航班</h2>
-        <ul id="outboundList"></ul>
-      </div>
-      <div class="flight-section" id="return">
-        <h2>回程航班</h2>
-        <ul id="returnList"></ul>
-      </div>
+<section id="homePage">
+  <h1>航班列表</h1>
+  <div class="flight-lists">
+    <div class="flight-section" id="outbound">
+      <h2>去程航班</h2>
+      <ul id="outboundList"></ul>
     </div>
-  </section>
-
-  <section id="addFlightPage" style="display:none;">
-    <div class="form-container">
-      <h2>新增航班</h2>
-      <form id="flightForm">
-        <label for="flightNumber">航班編號</label>
-        <input type="text" id="flightNumber" name="flightNumber" required>
-
-        <label for="departure">起飛時間</label>
-        <input type="datetime-local" id="departure" name="departure" required>
-
-        <label for="destination">目的地</label>
-        <input type="text" id="destination" name="destination" required>
-
-        <label for="airline">航空公司</label>
-        <select id="airline" name="airline" required>
-          <option value="">請選擇航空公司</option>
-          <option value="China Airlines">中華航空</option>
-          <option value="EVA Air">長榮航空</option>
-          <option value="Cathay Pacific">國泰航空</option>
-          <option value="Japan Airlines">日本航空</option>
-          <option value="Other">其他</option>
-        </select>
-
-        <label for="tripType">航班類型</label>
-        <select id="tripType" name="tripType" required>
-          <option value="">請選擇去程或回程</option>
-          <option value="去程">去程</option>
-          <option value="回程">回程</option>
-        </select>
-
-        <button type="submit">送出航班資料</button>
-      </form>
+    <div class="flight-section" id="return">
+      <h2>回程航班</h2>
+      <ul id="returnList"></ul>
     </div>
-  </section>
+  </div>
+</section>
 
-  <script src="script.js"></script>
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+<section id="addFlightPage" style="display:none;">
+  <div class="form-container">
+    <h2>新增航班</h2>
+    <form id="flightForm">
+      <label for="flightNumber">航班編號</label>
+      <input type="text" id="flightNumber" name="flightNumber" required>
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCFObBS7xpcJsp4rQsqvLLvD1SJ-6y4o4k",
-  authDomain: "travel-flight-5ba69.firebaseapp.com",
-  projectId: "travel-flight-5ba69",
-  storageBucket: "travel-flight-5ba69.firebasestorage.app",
-  messagingSenderId: "225700601197",
-  appId: "1:225700601197:web:889e51055a57eb1477ce64",
-  measurementId: "G-LFWZ863Y1F"
-};
+      <label for="departure">起飛時間</label>
+      <input type="datetime-local" id="departure" name="departure" required>
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+      <label for="destination">目的地</label>
+      <input type="text" id="destination" name="destination" required>
+
+      <label for="airline">航空公司</label>
+      <select id="airline" name="airline" required>
+        <option value="">請選擇航空公司</option>
+        <option value="China Airlines">中華航空</option>
+        <option value="EVA Air">長榮航空</option>
+        <option value="Cathay Pacific">國泰航空</option>
+        <option value="Japan Airlines">日本航空</option>
+        <option value="Other">其他</option>
+      </select>
+
+      <label for="tripType">航班類型</label>
+      <select id="tripType" name="tripType" required>
+        <option value="">請選擇去程或回程</option>
+        <option value="去程">去程</option>
+        <option value="回程">回程</option>
+      </select>
+
+      <button type="submit">送出航班資料</button>
+    </form>
+  </div>
+</section>
+
+<!-- 你的 JS 功能 -->
+<script src="script.js"></script>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js"></script>
+
+<script>
+  // Firebase 設定
+  const firebaseConfig = {
+    apiKey: "AIzaSyCFObBS7xpcJsp4rQsqvLLvD1SJ-6y4o4k",
+    authDomain: "travel-flight-5ba69.firebaseapp.com",
+    projectId: "travel-flight-5ba69",
+    storageBucket: "travel-flight-5ba69.appspot.com",
+    messagingSenderId: "225700601197",
+    appId: "1:225700601197:web:889e51055a57eb1477ce64",
+    measurementId: "G-LFWZ863Y1F"
+  };
+
+  // 初始化 Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const analytics = firebase.analytics();
+</script>
 </body>
 </html>

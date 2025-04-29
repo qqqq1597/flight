@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>航班管理系統</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">
+      <button>首頁</button>
+    </a>
+    <button id="addFlightBtn">新增航班</button>
+  </header>
+
+  <section id="homePage">
+    <h1>航班列表</h1>
+    <div class="flight-lists">
+      <div class="flight-section" id="outbound">
+        <h2>去程航班</h2>
+        <ul id="outboundList"></ul>
+      </div>
+      <div class="flight-section" id="return">
+        <h2>回程航班</h2>
+        <ul id="returnList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="addFlightPage" style="display:none;">
+    <div class="form-container">
+      <h2>新增航班</h2>
+      <form id="flightForm">
+        <label for="flightNumber">航班編號</label>
+        <input type="text" id="flightNumber" name="flightNumber" required>
+
+        <label for="departure">起飛時間</label>
+        <input type="datetime-local" id="departure" name="departure" required>
+
+        <label for="destination">目的地</label>
+        <input type="text" id="destination" name="destination" required>
+
+        <label for="airline">航空公司</label>
+        <select id="airline" name="airline" required>
+          <option value="">請選擇航空公司</option>
+          <option value="China Airlines">中華航空</option>
+          <option value="EVA Air">長榮航空</option>
+          <option value="Cathay Pacific">國泰航空</option>
+          <option value="Japan Airlines">日本航空</option>
+          <option value="Other">其他</option>
+        </select>
+
+        <label for="tripType">航班類型</label>
+        <select id="tripType" name="tripType" required>
+          <option value="">請選擇去程或回程</option>
+          <option value="去程">去程</option>
+          <option value="回程">回程</option>
+        </select>
+
+        <button type="submit">送出航班資料</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

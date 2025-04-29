@@ -66,7 +66,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
-  <!-- 初始化 Firebase -->
+  <!-- Firebase 初始化 -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCFObBS7xpcJsp4rQsqvLLvD1SJ-6y4o4k",
@@ -79,10 +79,9 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    window.db = db; // 讓 script.js 能用
+    window.db = db; // 給 script.js 使用
   </script>
 
-  <!-- 主邏輯 -->
   <script src="script.js"></script>
 </body>
 </html>

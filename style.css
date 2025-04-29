@@ -99,3 +99,23 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #2980b9;
 }
+
+.back-button button {
+  padding: 12px 24px;
+  background-color: #2ecc71;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.back-button button:hover {
+  background-color: #27ae60;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}

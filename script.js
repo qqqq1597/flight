@@ -1,30 +1,17 @@
-﻿// Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+﻿// Firebase 初始化
+const db = firebase.firestore();
 
-// Firebase 設定（用你的專案資訊）
-const firebaseConfig = {
-  apiKey: "AIzaSyCFObBS7xpcJsp4rQsqvLLvD1SJ-6y4o4k",
-  authDomain: "travel-flight-5ba69.firebaseapp.com",
-  projectId: "travel-flight-5ba69",
-  storageBucket: "travel-flight-5ba69.appspot.com",
-  messagingSenderId: "225700601197",
-  appId: "1:225700601197:web:889e51055a57eb1477ce64",
-  measurementId: "G-LFWZ863Y1F"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// UI 元件
+// 顯示首頁和新增頁面
 const homePage = document.getElementById('homePage');
 const addFlightPage = document.getElementById('addFlightPage');
 
+// 點擊新增航班按鈕，切換頁面
 document.getElementById('addFlightBtn').addEventListener('click', () => {
   homePage.style.display = 'none';
   addFlightPage.style.display = 'block';
 });
 
+// 提交表單時，將航班資料儲存到 Firestore
 document.getElementById('flightForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -33,47 +20,77 @@ document.getElementById('flightForm').addEventListener('submit', async function(
     departure: document.getElementById('departure').value,
     destination: document.getElementById('destination').value,
     airline: document.getElementById('airline').value,
-    tripType: document.getElementById('tripType').value
+    tripType: document.getElementById('tripType').value,
   };
 
-  await addDoc(collection(db, "flights"), flightData);
+  try {
+    // 儲存資料到 Firestore
+    await db.collection("flights").add(flightData);
 
-  alert('航班資料已送出！');
-  this.reset();
+    alert('航班資料已送出！');
+    this.reset();
 
-  homePage.style.display = 'block';
-  addFlightPage.style.display = 'none';
-  loadFlights();
+    // 切換回首頁，並加載航班資料
+    homePage.style.display = 'block';
+    addFlightPage.style.display = 'none';
+    loadFlights();
+  } catch (error) {
+    console.error("錯誤:", error);
+    alert("航班資料儲存失敗！");
+  }
 });
 
+// 載入 Firestore 中的航班資料
 async function loadFlights() {
   const outboundList = document.getElementById('outboundList');
   const returnList = document.getElementById('returnList');
+
   outboundList.innerHTML = '';
   returnList.innerHTML = '';
 
-  const querySnapshot = await getDocs(collection(db, "flights"));
-  querySnapshot.forEach((docSnap) => {
-    const flight = docSnap.data();
-    const listItem = document.createElement('li');
-    listItem.textContent = `航班：${flight.flightNumber}，起飛：${flight.departure}，目的地：${flight.destination}，航空公司：${flight.airline}`;
+  try {
+    // 從 Firestore 加載所有航班
+    const querySnapshot = await db.collection("flights").get();
+    
+    querySnapshot.forEach(doc => {
+      const flight = doc.data();
+      const listItem = document.createElement('li');
+      listItem.textContent = `航班：${flight.flightNumber}，起飛：${flight.departure}，目的地：${flight.destination}，航空公司：${flight.airline}`;
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.classList.add('deleteBtn');
-    deleteBtn.textContent = '刪除';
-    deleteBtn.addEventListener('click', async () => {
-      await deleteDoc(doc(db, "flights", docSnap.id));
-      loadFlights();
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('deleteBtn');
+      deleteBtn.textContent = '刪除';
+      deleteBtn.addEventListener('click', () => {
+        deleteFlight(doc.id); // 使用 doc.id 刪除
+      });
+
+      listItem.appendChild(deleteBtn);
+
+      if (flight.tripType === '去程') {
+        outboundList.appendChild(listItem);
+      } else if (flight.tripType === '回程') {
+        returnList.appendChild(listItem);
+      }
     });
-
-    listItem.appendChild(deleteBtn);
-
-    if (flight.tripType === '去程') {
-      outboundList.appendChild(listItem);
-    } else if (flight.tripType === '回程') {
-      returnList.appendChild(listItem);
-    }
-  });
+  } catch (error) {
+    console.error("錯誤:", error);
+    alert("無法載入航班資料！");
+  }
 }
 
+// 刪除 Firestore 中的航班資料
+async function deleteFlight(flightId) {
+  try {
+    // 刪除指定的航班
+    await db.collection("flights").doc(flightId).delete();
+
+    alert('航班已刪除！');
+    loadFlights(); // 刪除後重新載入航班
+  } catch (error) {
+    console.error("錯誤:", error);
+    alert("刪除航班失敗！");
+  }
+}
+
+// 頁面加載時載入航班資料
 loadFlights();

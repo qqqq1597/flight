@@ -17,6 +17,7 @@ document.getElementById('flightForm').addEventListener('submit', async function(
   const flightData = {
     flightNumber: document.getElementById('flightNumber').value,
     departure: document.getElementById('departure').value,
+    arrival: document.getElementById('arrival').value, // ✅ 新增抵達時間
     destination: document.getElementById('destination').value,
     airline: document.getElementById('airline').value,
     tripType: document.getElementById('tripType').value,
@@ -46,7 +47,14 @@ async function loadFlights() {
     querySnapshot.forEach(doc => {
       const flight = doc.data();
       const listItem = document.createElement('li');
-      listItem.textContent = `航班：${flight.flightNumber}，起飛：${flight.departure}，目的地：${flight.destination}，航空公司：${flight.airline}`;
+
+      listItem.innerHTML = `
+        <strong>航班：</strong>${flight.flightNumber}<br>
+        ✈ 起飛：${flight.departure}<br>
+        ⏱ 抵達：${flight.arrival || '未填寫'}<br>
+        📍 目的地：${flight.destination}<br>
+        🏢 航空公司：${flight.airline}
+      `;
 
       const deleteBtn = document.createElement('button');
       deleteBtn.classList.add('deleteBtn');
@@ -80,5 +88,5 @@ async function deleteFlight(flightId) {
   }
 }
 
-// 頁面一開始就載入航班
+// 頁面載入時自動讀取資料
 loadFlights();
